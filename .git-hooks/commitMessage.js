@@ -31,12 +31,12 @@ async function generateCommitMessage(diff) {
   return openai.chat.completions
     .create({
       model: 'gpt-3.5-turbo',
-      temperature: .3,
-      top_p: .9,
+      temperature: 0.3,
+      top_p: 0.9,
       messages: [
         {
           role: 'system',
-          content:`
+          content: `
             You are an AI that writes Git commit messages in a structured format.
             Follow these rules:
             
@@ -75,10 +75,19 @@ async function generateCommitMessage(diff) {
 
 // function to replace the commit message
 function setCommitMessage(commitMsgFile) {
-  let existingMessage = fs.readFileSync(commitMsgFile, 'utf-8').trim();
-  
+  // im trying to see if I can get this thing to only commit when there is no user supplied message
+  let existingMessage = fs
+    .readFileSync(commitMsgFile, 'utf-8') // Open the commit message
+    .split('\n') // Split it into lines
+    .filter((line) => !line.startsWith('#')) // Remove all of the comment lines
+    .map((line) => line.trim()) // Trim each line of their spaces
+    .filter((line) => line.length > 0) // Remove empty lines without content
+    .join('\n'); // Rejoin into a string
+
   if (existingMessage.length > 0) {
-    console.log("(┬┬﹏┬┬) User-provided commit message detected. Skipping AI suggestion.");
+    console.log(
+      '(┬┬﹏┬┬) User-provided commit message detected. Skipping AI suggestion.'
+    );
     return;
   }
 
