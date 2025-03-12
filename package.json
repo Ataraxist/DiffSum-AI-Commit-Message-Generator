@@ -4,12 +4,18 @@
   "main": "lib/commitMessage.js",
   "type": "module",
   "bin": {
-    "diffsum": "./bin/prepare-commit-msg"
+    "diffsum": "bin/prepare-commit-msg"
   },
   "scripts": {
-    "postinstall": "cp bin/prepare-commit-msg .git/hooks/prepare-commit-msg && chmod +x .git/hooks/prepare-commit-msg"
+    "postinstall": "node bin/setup.js && cp bin/prepare-commit-msg .git/hooks/prepare-commit-msg && chmod +x .git/hooks/prepare-commit-msg"
   },
-  "keywords": ["git", "commit", "AI", "OpenAI", "Git Hooks"],
+  "keywords": [
+    "git",
+    "commit",
+    "AI",
+    "OpenAI",
+    "Git Hooks"
+  ],
   "author": "Christopher Antico",
   "license": "MIT",
   "description": "An AI-powered Git commit message generator",
