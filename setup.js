@@ -46,12 +46,17 @@ try {
 // Detect interactive mode
 const isInteractive = () => process.stdout.isTTY && process.stdin.isTTY;
 
-// Handle API key setup
-if (isInteractive()) {
+// Function to detect if this is running in an npm install process
+function isNpmInstall() {
+  return process.env.npm_config_user_agent !== undefined;
+}
+
+// Only prompt for API key if it's an interactive shell AND not running in an install process
+if (isInteractive() && !isNpmInstall()) {
   const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout,
-    terminal: true
+    terminal: true,
   });
 
   rl.question('Enter your OpenAI API key: ', (apiKey) => {
