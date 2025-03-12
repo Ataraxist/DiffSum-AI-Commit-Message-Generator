@@ -1,0 +1,2 @@
+#!/bin/sh
+node "$(dirname "$0")/../lib/commitMessage.js" "$1"

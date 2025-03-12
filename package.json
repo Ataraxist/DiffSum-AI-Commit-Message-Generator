@@ -1,18 +1,21 @@
 {
   "name": "diffsum",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "lib/commitMessage.js",
   "type": "module",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "bin": {
+    "diffsum": "./bin/prepare-commit-msg"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
+  "scripts": {
+    "postinstall": "cp bin/prepare-commit-msg .git/hooks/prepare-commit-msg && chmod +x .git/hooks/prepare-commit-msg"
+  },
+  "keywords": ["git", "commit", "AI", "OpenAI", "Git Hooks"],
+  "author": "Christopher Antico",
+  "license": "MIT",
+  "description": "An AI-powered Git commit message generator",
   "dependencies": {
-    "dotenv": "^16.4.7",
-    "openai": "^4.87.3",
-    "simple-git": "^3.27.0"
+    "dotenv": "^16.0.0",
+    "openai": "^4.0.0",
+    "simple-git": "^3.0.0"
   }
 }
