@@ -5,7 +5,7 @@
   "type": "module",
   "bin": {
     "diffsum": "bin/prepare-commit-msg",
-    "diffyum": "bin/config.js"
+    "diffsum-config": "bin/config.js"
   },
   "scripts": {
     "postinstall": "node bin/setup.js"

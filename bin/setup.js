@@ -49,4 +49,4 @@ try {
 }
 
 // Done
-console.log('(￣y▽￣)╭ Ohohoho..... Run `npx diffyum` to configure your API key.');
+console.log('(￣y▽￣)╭ Ohohoho..... Run `npx diffsum-config` to configure your API key.');
