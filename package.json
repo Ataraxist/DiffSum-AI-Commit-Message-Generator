@@ -1,6 +1,6 @@
 {
   "name": "diffsum",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "main": "lib/commitMessage.js",
   "type": "module",
   "bin": {
