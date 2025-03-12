@@ -2,6 +2,8 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
+console.log("🚀 Running setup.js postinstall script...");
+
 // Resolve script directory
 const scriptDir = path.dirname(fileURLToPath(import.meta.url));
 
@@ -27,11 +29,17 @@ const hooksDir = path.join(gitRoot, '.git', 'hooks');
 const hookFile = path.join(hooksDir, 'prepare-commit-msg');
 const sourceFile = path.join(scriptDir, 'prepare-commit-msg'); // Uses scriptDir
 
+// Debugging logs
+console.log(`🛠 Git hooks directory: ${hooksDir}`);
+console.log(`📂 Source hook file: ${sourceFile}`);
+console.log(`📂 Destination hook file: ${hookFile}`);
+
 // Ensure .git/hooks directory exists
 fs.mkdirSync(hooksDir, { recursive: true });
 
 // Attempt to create the Git hook
 try {
+  console.log(`📂 Copying hook from ${sourceFile} to ${hookFile}`);
   fs.copyFileSync(sourceFile, hookFile);
   fs.chmodSync(hookFile, 0o755);
   console.log('( •̀ ω •́ )✧ Git hook installed successfully!');
