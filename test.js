@@ -1,1 +1,0 @@
-const helloWord = 'Hello World'
