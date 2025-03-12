@@ -51,6 +51,7 @@ if (isInteractive()) {
   const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout,
+    terminal: true
   });
 
   rl.question('Enter your OpenAI API key: ', (apiKey) => {
