@@ -1,2 +1,3 @@
 #!/bin/sh
-node "$(dirname "$0")/../lib/commitMessage.js" "$1"
+PROJECT_ROOT="$(git rev-parse --show-toplevel)"
+node "$PROJECT_ROOT/lib/commitMessage.js" "$1"

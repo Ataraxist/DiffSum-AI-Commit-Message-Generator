@@ -7,7 +7,7 @@
     "diffsum": "bin/prepare-commit-msg"
   },
   "scripts": {
-    "install": "node bin/setup.js"
+    "postinstall": "node bin/setup.js"
   },
   "keywords": [
     "git",
@@ -23,5 +23,8 @@
     "dotenv": "^16.0.0",
     "openai": "^4.0.0",
     "simple-git": "^3.0.0"
-  }
+  },
+  "files": [
+    "setup.js"
+  ]
 }
