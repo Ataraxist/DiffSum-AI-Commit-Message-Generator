@@ -7,7 +7,7 @@
     "diffsum": "bin/prepare-commit-msg"
   },
   "scripts": {
-    "postinstall": "node bin/setup.js"
+    "postinstall": "node setup.js"
   },
   "keywords": [
     "git",
