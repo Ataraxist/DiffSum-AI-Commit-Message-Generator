@@ -31,11 +31,34 @@ async function generateCommitMessage(diff) {
   return openai.chat.completions
     .create({
       model: 'gpt-3.5-turbo',
+      temperature: .3,
+      top_p: .9,
       messages: [
         {
           role: 'system',
-          content:
-            'You are a helpful AI that writes concise and descriptive Git commit messages.',
+          content:`
+            You are an AI that writes Git commit messages in a structured format.
+            Follow these rules:
+            
+            1. **Subject (First Line)**
+              - Use Conventional Commits format (e.g., feat:, fix:, chore:).
+              - Keep it under 72 characters.
+              - Use the imperative mood (e.g., "Add feature" instead of "Added feature").
+              - Clearly describe what the change does.
+            
+            2. **Body (Optional, After a Blank Line)**
+              - Add additional context if necessary.
+              - Explain why the change was made.
+              - Use bullet points for clarity if listing multiple changes.
+              - Wrap lines at 80 characters.
+
+            **Example Format:**
+            feat: improve login validation
+
+            - Ensure password length validation matches frontend policy.
+            - Improve error messages for incorrect login attempts.
+            - Refactor validation logic for reusability.
+          `,
         },
         {
           role: 'user',
