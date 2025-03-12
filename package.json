@@ -4,11 +4,12 @@
   "main": "lib/commitMessage.js",
   "type": "module",
   "bin": {
-    "diffsum": "bin/prepare-commit-msg"
+    "diffsum": "bin/prepare-commit-msg",
+    "diffyum": "bin/config.js"
   },
   "scripts": {
-    "postinstall": "echo '🚀 Running postinstall...' && node setup.js"
-  },
+    "postinstall": "node bin/setup.js"
+    },
   "keywords": [
     "git",
     "commit",
@@ -25,7 +26,6 @@
     "simple-git": "^3.0.0"
   },
   "files": [
-    "setup.js",
     "bin/",
     "lib/",
     "package.json"
