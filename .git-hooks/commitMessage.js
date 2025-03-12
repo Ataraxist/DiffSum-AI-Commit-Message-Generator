@@ -13,6 +13,7 @@ const git = simpleGit();
 
 // function to grab the difference between commits.
 async function getGitDiff() {
+  console.log('Getting Git Difference Values')
   return git
     .diff(['--staged'])
     .then((diff) => diff)
@@ -24,6 +25,7 @@ async function getGitDiff() {
 
 // function to send the difference to chatGPT
 async function generateCommitMessage(diff) {
+  console.log('Generating Commit Message')
   if (!diff.trim()) {
     return 'No Difference Detected.';
   }
@@ -75,6 +77,7 @@ async function generateCommitMessage(diff) {
 
 // function to replace the commit message
 function setCommitMessage(commitMsgFile) {
+  console.log('Submitting Commit Message.')
   // im trying to see if I can get this thing to only commit when there is no user supplied message
   let existingMessage = fs
     .readFileSync(commitMsgFile, 'utf-8') // Open the commit message
