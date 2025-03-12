@@ -26,6 +26,8 @@
   },
   "files": [
     "setup.js",
-    "bin/"
-  ]
+    "bin/",
+    "lib/",
+    "package.json"
+]
 }
