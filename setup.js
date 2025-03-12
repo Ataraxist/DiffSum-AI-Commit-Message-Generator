@@ -1,17 +1,32 @@
 import fs from 'fs';
 import path from 'path';
 import readline from 'readline';
+import { execSync } from 'child_process';
 
-// Define paths
-const hooksDir = path.join('.git', 'hooks');
-const hookFile = path.join(hooksDir, 'prepare-commit-msg');
-const sourceFile = path.join('bin', 'prepare-commit-msg');
+// Function to find the Git root directory
+function findGitRoot(dir) {
+  if (fs.existsSync(path.join(dir, '.git'))) {
+    return dir;
+  }
+  const parent = path.dirname(dir);
+  if (parent === dir) return null; 
+  return findGitRoot(parent);
+}
 
-// Check if this is a valid Git repository
-if (!fs.existsSync('.git')) {
+// Locate the Git root
+const gitRoot = findGitRoot(process.cwd());
+
+if (!gitRoot) {
   console.warn("⚠️  No Git repository detected. Skipping Git hook installation.");
   process.exit(0);
+} else {
+  console.log(`✅ Found Git root at: ${gitRoot}`);
 }
+
+// Define correct paths using gitRoot
+const hooksDir = path.join(gitRoot, '.git', 'hooks');
+const hookFile = path.join(hooksDir, 'prepare-commit-msg');
+const sourceFile = path.join(__dirname, 'bin', 'prepare-commit-msg'); // Ensure source is found correctly
 
 // Ensure the .git/hooks directory exists
 fs.mkdirSync(hooksDir, { recursive: true });
@@ -43,7 +58,7 @@ if (isInteractive()) {
       console.log("❌ No API key provided. Skipping .env setup.");
     } else {
       const envContent = `OPENAI_API_KEY=${apiKey}\n`;
-      fs.writeFileSync('.env', envContent, { encoding: 'utf-8' });
+      fs.writeFileSync(path.join(gitRoot, '.env'), envContent, { encoding: 'utf-8' }); // Save in Git root
       console.log("✅ .env file created successfully!");
     }
     rl.close();
@@ -51,5 +66,5 @@ if (isInteractive()) {
 } else {
   console.log("⚠️  Non-interactive install detected. You need to manually create a .env file with your OpenAI API key.");
   console.log("Example:");
-  console.log("  echo 'OPENAI_API_KEY=your_api_key_here' > .env");
+  console.log(`  echo 'OPENAI_API_KEY=your_api_key_here' > ${path.join(gitRoot, '.env')}`);
 }
