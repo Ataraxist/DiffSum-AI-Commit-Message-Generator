@@ -54,5 +54,5 @@ const setupApiKey = async () => {
 
 // Run API key setup
 setupApiKey().then(() => {
-  console.log('(￣y▽￣)╭ Ohohoho..... Your API key is stored in Git config. No .env file needed!');
+  console.log('✅ Setup complete! Run `git commit` to start using diffsum.');
 });

@@ -5,10 +5,9 @@
   "type": "module",
   "bin": {
     "diffsum": "bin/prepare-commit-msg",
-    "diffsum-config": "bin/config.js"
+    "diffsum-config": "bin/setup.js"
   },
   "scripts": {
-    "postinstall": "node bin/setup.js"
   },
   "keywords": [
     "git",
