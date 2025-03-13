@@ -1,14 +1,13 @@
 {
   "name": "diffsum",
-  "version": "1.0.17",
+  "version": "1.0.18",
   "main": "lib/commitMessage.js",
   "type": "module",
   "bin": {
     "diffsum": "bin/prepare-commit-msg",
     "diffsum-config": "bin/setup.js"
   },
-  "scripts": {
-  },
+  "scripts": {},
   "keywords": [
     "git",
     "commit",
