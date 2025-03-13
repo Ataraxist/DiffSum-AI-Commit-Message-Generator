@@ -14,7 +14,7 @@ const askForApiKey = () => {
   return new Promise((resolve) => {
     const rl = readline.createInterface({
       input: process.stdin,
-      output: process.stdout
+      output: process.stdout,
     });
 
     rl.question('(∩^o^)⊃━☆ I need your OpenAI API key: ', (apiKey) => {
@@ -29,7 +29,9 @@ const updateCommitMessageFile = async () => {
   const apiKey = await askForApiKey();
 
   if (!apiKey) {
-    console.log('(╬▔皿▔)╯ Fine. Keep your secrets. If you change your mind, run NPX diffsum-config to enter one.');
+    console.log(
+      '(╬▔皿▔)╯ Fine. Keep your secrets. If you change your mind, run NPX diffsum-config to enter one.'
+    );
     return;
   }
 
@@ -42,14 +44,10 @@ const updateCommitMessageFile = async () => {
   let fileContent = fs.readFileSync(commitMessageFile, 'utf8');
 
   // Replace existing API key if it exists, otherwise add it
-  if (fileContent.includes('OPENAI_API_KEY')) {
-    fileContent = fileContent.replace(/apiKey:\s*['"].*?['"]/g, `apiKey: '${apiKey}'`);
-  } else {
-    fileContent = fileContent.replace(
-      "const openai = new OpenAI({",
-      `const openai = new OpenAI({\n  apiKey: '${apiKey}',`
-    );
-  }
+  fileContent = fileContent.replace(
+    /apiKey:\s*['"].*?['"]/g,
+    `apiKey: '${apiKey}'`
+  );
 
   // Write updated content back to commitMessage.js
   fs.writeFileSync(commitMessageFile, fileContent, 'utf8');
@@ -57,4 +55,4 @@ const updateCommitMessageFile = async () => {
 };
 
 // Run update
-updateCommitMessageFile()
+updateCommitMessageFile();
