@@ -5,7 +5,8 @@
   "type": "module",
   "bin": {
     "diffsum": "bin/prepare-commit-msg",
-    "diffsum-config": "bin/setup.js"
+    "diffsum-config": "bin/setup.js",
+    "diffsum-verbose": "lib/verbose.js"
   },
   "scripts": {},
   "keywords": [
