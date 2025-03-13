@@ -3,17 +3,9 @@
 # Start from the Git root
 PROJECT_ROOT="$(git rev-parse --show-toplevel)"
 
-# Function to search recursively for node_modules/diffsum/lib/commitMessage.js
+# Function to recursively search for node_modules/diffsum/lib/commitMessage.js
 find_diffsum_path() {
-  local dir="$1"
-  while [ "$dir" != "/" ]; do
-    if [ -f "$dir/node_modules/diffsum/lib/commitMessage.js" ]; then
-      echo "$dir/node_modules/diffsum/lib/commitMessage.js"
-      return 0
-    fi
-    dir=$(dirname "$dir")  # Move up one directory
-  done
-  return 1
+  find "$1" -type f -path "*/node_modules/diffsum/lib/commitMessage.js" 2>/dev/null | head -n 1
 }
 
 # Search for the correct path
