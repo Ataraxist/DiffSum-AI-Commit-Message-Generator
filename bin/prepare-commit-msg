@@ -1,3 +1,28 @@
 #!/bin/sh
+
+# Start from the Git root
 PROJECT_ROOT="$(git rev-parse --show-toplevel)"
-node "$PROJECT_ROOT/lib/commitMessage.js" "$1"
+
+# Function to search recursively for node_modules/diffsum/lib/commitMessage.js
+find_diffsum_path() {
+  local dir="$1"
+  while [ "$dir" != "/" ]; do
+    if [ -f "$dir/node_modules/diffsum/lib/commitMessage.js" ]; then
+      echo "$dir/node_modules/diffsum/lib/commitMessage.js"
+      return 0
+    fi
+    dir=$(dirname "$dir")  # Move up one directory
+  done
+  return 1
+}
+
+# Search for the correct path
+DIFFSUM_PATH=$(find_diffsum_path "$PROJECT_ROOT")
+
+if [ -z "$DIFFSUM_PATH" ]; then
+  echo "⚠️ diffsum not found. Make sure it is installed via npm."
+  exit 1
+fi
+
+# Run the commit message generator
+node "$DIFFSUM_PATH" "$1"
