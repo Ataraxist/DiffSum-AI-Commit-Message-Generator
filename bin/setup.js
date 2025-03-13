@@ -36,7 +36,7 @@ const askForApiKey = () => {
 
     rl.question('Enter your OpenAI API key: ', (apiKey) => {
       rl.close();
-      resolve(apiKey.trim());
+      resolve(apiKey.trim().replace(/^['"]+|['"]+$/g, '')); // Remove any surrounding quotes
     });
   });
 };
@@ -50,7 +50,8 @@ const setupApiKey = async () => {
     return;
   }
 
-  execSync(`git config --global diffsum.openai_key "${apiKey}"`);
+  // Use a valid Git config key format (no dots)
+  execSync(`git config --global diffsum_openai_key "${apiKey}"`);
   console.log('✅ API key saved to Git config.');
 };
 
