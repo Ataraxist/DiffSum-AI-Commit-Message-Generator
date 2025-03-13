@@ -3,28 +3,11 @@
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { execSync } from 'child_process';
 import readline from 'readline';
 
 // Resolve script directory
 const scriptDir = path.dirname(fileURLToPath(import.meta.url));
-
-// Find Git root directory (assume the script is running inside the repo)
-const findGitRoot = (dir) => {
-  return fs.existsSync(path.join(dir, '.git')) ? dir : findGitRoot(path.dirname(dir));
-};
-
-const gitRoot = findGitRoot(process.cwd());
-
-// Define hook paths
-const hooksDir = path.join(gitRoot, '.git', 'hooks');
-const hookFile = path.join(hooksDir, 'prepare-commit-msg');
-const sourceFile = path.join(scriptDir, 'prepare-commit-msg');
-
-// Ensure .git/hooks exists and copy the hook
-fs.mkdirSync(hooksDir, { recursive: true });
-fs.copyFileSync(sourceFile, hookFile);
-fs.chmodSync(hookFile, 0o755);
+const commitMessageFile = path.join(scriptDir, '../lib/commitMessage.js'); // Adjust path based on your structure
 
 // Function to prompt user for API key
 const askForApiKey = () => {
@@ -41,8 +24,8 @@ const askForApiKey = () => {
   });
 };
 
-// Store API key in Git global config
-const setupApiKey = async () => {
+// Function to update commitMessage.js with API key
+const updateCommitMessageFile = async () => {
   const apiKey = await askForApiKey();
 
   if (!apiKey) {
@@ -50,12 +33,30 @@ const setupApiKey = async () => {
     return;
   }
 
-  // Escape API key properly using JSON.stringify()
-  execSync(`git config --global diffsum.openai_key ${JSON.stringify(apiKey)}`);
-  console.log('✅ API key saved under [diffsum] openai_key in Git config.');
+  if (!fs.existsSync(commitMessageFile)) {
+    console.error(`❌ Error: ${commitMessageFile} not found.`);
+    process.exit(1);
+  }
+
+  // Read commitMessage.js content
+  let fileContent = fs.readFileSync(commitMessageFile, 'utf8');
+
+  // Replace existing API key if it exists, otherwise add it
+  if (fileContent.includes('OPENAI_API_KEY')) {
+    fileContent = fileContent.replace(/apiKey:\s*['"].*?['"]/g, `apiKey: '${apiKey}'`);
+  } else {
+    fileContent = fileContent.replace(
+      "const openai = new OpenAI({",
+      `const openai = new OpenAI({\n  apiKey: '${apiKey}',`
+    );
+  }
+
+  // Write updated content back to commitMessage.js
+  fs.writeFileSync(commitMessageFile, fileContent, 'utf8');
+  console.log(`✅ API key saved inside ${commitMessageFile}.`);
 };
 
-// Run API key setup
-setupApiKey().then(() => {
+// Run update
+updateCommitMessageFile().then(() => {
   console.log('✅ Setup complete! Run `git commit` to start using diffsum.');
 });
