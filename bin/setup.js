@@ -50,8 +50,8 @@ const setupApiKey = async () => {
     return;
   }
 
-  // Use a valid Git config key format (no dots)
-  execSync(`git config --global diffsum_openai_key "${apiKey}"`);
+  // Use a valid Git config section ([diffsum] openai_key)
+  execSync(`git config --global diffsum.openai_key "${apiKey}"`);
   console.log('✅ API key saved to Git config.');
 };
 
