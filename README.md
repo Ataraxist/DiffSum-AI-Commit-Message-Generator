@@ -10,6 +10,7 @@ DiffSum is an AI-powered Git commit message generator that analyzes your staged 
 - Automatically integrates with Git Hooks
 - Skips AI-generated messages when a manual commit message is detected
 - Configurable API key setup
+- Toggle between concise (GPT-3.5) and verbose (GPT-4) commit messages
 
 ## Installation
 
@@ -38,6 +39,11 @@ git commit
 ```
 If a message is manually provided, DiffSum will respect it and not override it.
 
+To toggle verbose mode (GPT-4 for detailed messages vs GPT-3.5 for concise messages):
+```sh
+npx diffsum-verbose
+```
+
 ## Configuration
 The `diffsum` binary is automatically hooked into Git. If needed, manually set it up in `.git/hooks/prepare-commit-msg`:
 ```sh
@@ -54,6 +60,15 @@ feat: improve login validation
 - Improve error messages for incorrect login attempts.
 - Refactor validation logic for reusability.
 ```
+
+## Changelog
+### v1.2.0
+- **Verbose Mode Toggle**: Users can now switch between concise (GPT-3.5) and detailed (GPT-4) commit messages using `npx diffsum-verbose`.
+- **Improved API Key Management**: The `setup.js` script now securely replaces and manages the OpenAI API key.
+- **Enhanced Error Handling**: Added more robust error messages for missing files and invalid configurations.
+- **Performance Improvements**: Optimized `commitMessage.js` to ensure non-blocking operations for Git commits.
+
+- NOTE: Verbose Mode will slow down the commit message generation considerably from ~500ms to ~2000+ms, depending on your commit size
 
 ## Dependencies
 - `dotenv` ^16.0.0
