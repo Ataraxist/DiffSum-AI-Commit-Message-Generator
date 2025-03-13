@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
-console.log("🚀 Running setup.js postinstall script...");
+console.log("^_____^ Running setup.js postinstall script...");
 
 // Resolve script directory
 const scriptDir = path.dirname(fileURLToPath(import.meta.url));
@@ -24,15 +24,26 @@ if (!gitRoot) {
   console.log(`( $ _ $ ) Found Git root at: ${gitRoot}`);
 }
 
+// Dynamically determine the `node_modules` directory
+const findNodeModules = (dir) => {
+  while (dir !== path.dirname(dir)) {
+    if (fs.existsSync(path.join(dir, 'node_modules'))) return path.join(dir, 'node_modules');
+    dir = path.dirname(dir);
+  }
+  return null;
+};
+
+const nodeModulesPath = findNodeModules(scriptDir);
+if (!nodeModulesPath) {
+  console.warn('o((⊙﹏⊙))o. Could not determine node_modules path. Some features may not work as expected.');
+} else {
+  console.log(`♪(^∇^*) Detected node_modules path: ${nodeModulesPath}`);
+}
+
 // Define paths
 const hooksDir = path.join(gitRoot, '.git', 'hooks');
 const hookFile = path.join(hooksDir, 'prepare-commit-msg');
 const sourceFile = path.join(scriptDir, 'prepare-commit-msg'); // Uses scriptDir
-
-// Debugging logs
-console.log(`🛠 Git hooks directory: ${hooksDir}`);
-console.log(`📂 Source hook file: ${sourceFile}`);
-console.log(`📂 Destination hook file: ${hookFile}`);
 
 // Ensure .git/hooks directory exists
 fs.mkdirSync(hooksDir, { recursive: true });

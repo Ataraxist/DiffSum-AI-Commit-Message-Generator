@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -17,17 +19,17 @@ const findGitRoot = (dir) => {
 const gitRoot = findGitRoot(process.cwd());
 
 if (!gitRoot) {
-  console.warn('⚠️ No Git repository detected. Please run this inside a Git project.');
+  console.warn('(╬▔皿▔)╯ No Git repository detected. Please run this inside a Git project.');
   process.exit(1);
 } else {
-  console.log(`✅ Found Git root at: ${gitRoot}`);
+  console.log('(´▽`ʃ♡ƪ) Found Git root at: ', gitRoot);
 }
 
 // Interactive check
 const isInteractive = () => process.stdout.isTTY && process.stdin.isTTY;
 
 if (!isInteractive()) {
-  console.log('⚠️ Non-interactive mode detected. Please create a .env file manually.');
+  console.log('ㄟ( ▔, ▔ )ㄏ Non-interactive mode detected. Please create a .env file manually.');
   console.log(`Example:\n  echo 'OPENAI_API_KEY=your_api_key_here' > ${path.join(gitRoot, '.env')}`);
   process.exit(0);
 }
@@ -41,11 +43,11 @@ const rl = readline.createInterface({
 
 rl.question('Enter your OpenAI API key: ', (apiKey) => {
   if (!apiKey.trim()) {
-    console.log('❌ No API key provided. Skipping .env setup.');
+    console.log('＞︿＜ No API key provided. Skipping .env setup.');
   } else {
     const envPath = path.join(gitRoot, '.env');
     fs.writeFileSync(envPath, `OPENAI_API_KEY=${apiKey}\n`, { encoding: 'utf-8' });
-    console.log(`✅ .env file created at: ${envPath}`);
+    console.log(`（￣︶￣）↗　 .env file created at: ${envPath}`);
   }
   rl.close();
 });
