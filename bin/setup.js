@@ -17,7 +17,7 @@ const askForApiKey = () => {
       output: process.stdout
     });
 
-    rl.question('Enter your OpenAI API key: ', (apiKey) => {
+    rl.question('(∩^o^)⊃━☆ I need your OpenAI API key: ', (apiKey) => {
       rl.close();
       resolve(apiKey.trim().replace(/^['"]+|['"]+$/g, '')); // Remove any surrounding quotes
     });
@@ -29,12 +29,12 @@ const updateCommitMessageFile = async () => {
   const apiKey = await askForApiKey();
 
   if (!apiKey) {
-    console.log('⚠️ No API key provided. Skipping setup.');
+    console.log('(╬▔皿▔)╯ Fine. Keep your secrets. If you change your mind, run NPX diffsum-config to enter one.');
     return;
   }
 
   if (!fs.existsSync(commitMessageFile)) {
-    console.error(`❌ Error: ${commitMessageFile} not found.`);
+    console.error(`(。_。) Error: ${commitMessageFile} not found.`);
     process.exit(1);
   }
 
@@ -53,10 +53,8 @@ const updateCommitMessageFile = async () => {
 
   // Write updated content back to commitMessage.js
   fs.writeFileSync(commitMessageFile, fileContent, 'utf8');
-  console.log(`✅ API key saved inside ${commitMessageFile}.`);
+  console.log(`(✿◡‿◡) Ty for the key, its saved here: ${commitMessageFile}.`);
 };
 
 // Run update
-updateCommitMessageFile().then(() => {
-  console.log('✅ Setup complete! Run `git commit` to start using diffsum.');
-});
+updateCommitMessageFile()

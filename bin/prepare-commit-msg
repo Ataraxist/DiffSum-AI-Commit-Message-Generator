@@ -11,10 +11,5 @@ find_diffsum_path() {
 # Search for the correct path
 DIFFSUM_PATH=$(find_diffsum_path "$PROJECT_ROOT")
 
-if [ -z "$DIFFSUM_PATH" ]; then
-  echo "⚠️ diffsum not found. Make sure it is installed via npm."
-  exit 1
-fi
-
 # Run the commit message generator
 node "$DIFFSUM_PATH" "$1"
