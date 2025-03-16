@@ -1,5 +1,7 @@
 # DiffSum - AI-Powered Commit Message Generator
 
+This package requires an openAI api key to work, which is saved to the commitMessage.js file. 
+
 ## Overview
 DiffSum is an AI-powered Git commit message generator that analyzes your staged changes and suggests structured commit messages following the Conventional Commits format. It integrates with Git Hooks to automate commit message generation when no message is manually provided.
 
@@ -74,6 +76,16 @@ feat: improve login validation
 - `dotenv` ^16.0.0
 - `openai` ^4.0.0
 - `simple-git` ^3.0.0
+
+## Security Concerns
+- **Why save my key locally? Is that even safe?**
+>Presumably your node_modules folder is in your .gitignore, so theoretically your key should be kept private. On the off chance you leak your key, Open AI will revoke your key within minutes. They are quite quick about this.
+
+- **Why not save my api key in .env?**
+>I had a lot of trouble creating an env file when one didn't exist already, and then I had even more trouble getting the package to be able to see environment variables. Then I had **even more** trouble when an env already existed at the time of install. At the end of the day, I gave up trying to save the key there.
+
+- **Why not save my api key as a global variable?**
+>Same as above, quite a bit of problems getting it to work, and in the end, your key isn't being siphoned or stolen. As long as you don't accidentally include your node_modules in a git push, you should be fine.
 
 ## Contributing
 Contributions are welcome! Feel free to open an issue or submit a pull request.
